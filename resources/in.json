@@ -1,0 +1,47 @@
+[
+    {
+        "updatedAt": "2025-06-24T19:15:21.944Z",
+        "createdAt": "2025-06-24T18:37:20.913Z",
+        "id": "jvNUxrxv7wRHmdwR",
+        "name": "gtd-bot",
+        "data": "U2FsdGVkX1+pc+kb3zdKtvSlIrOXrqW1D+IkrfXAk3FYjYTKvkVVp2pzeF6t4d2PtnqdvrP4/GfbJFa+MVgZtuD8IlorxTm3zAqZywn2p45ldhjEynOro6vM8VwDasUS",
+        "type": "telegramApi",
+        "isManaged": false
+    },
+    {
+        "updatedAt": "2025-06-24T19:15:10.481Z",
+        "createdAt": "2025-06-24T18:38:37.095Z",
+        "id": "1PPvjrRUJkFLVir4",
+        "name": "js-openai",
+        "data": "U2FsdGVkX19uYr/zH7BkNm66jMUE5v6t+fCSLPFdkNEfw2oAGioVmUrv8xpuxWvQqXkeUtZm/FmytNz4arBTcETPoprWxld88GWFzE8CINVZ75puQSWXmvkz7cAzEh7z1zFvi/ONAkWP5Veku+yroN02vojJr3pyC0svcW2O1Os0R2km+KNAHm43PL8LQvlzYduqrVLy8Ccf1+hTUGkuyRmr0t3mJc8FNHXDQcGFYxKigULqzr9++gwNdQRnwZoftskNV/KIq7R/25O5tgOs6A==",
+        "type": "openAiApi",
+        "isManaged": false
+    },
+    {
+        "updatedAt": "2025-11-18T21:06:48.707Z",
+        "createdAt": "2025-06-24T18:40:59.120Z",
+        "id": "fRqBdgxdwqaSsFZL",
+        "name": "js-calendar",
+        "data": "U2FsdGVkX18QeNJafC/lmIFnwrIskR+aQ5I2ZZsGEX1wLJTsD8U35eXa85kI+R0effxU0XT4YVtZp56uNOsoQU+JSYDttGR1L2/0/W/Msaqutd1O38CIPp7Q3SXAuBNxt+34hZ3GkuylNsQPNDzVoZ1DFJf1wyDYJ8gq4FD+jBPtErtChrKVDReligafylfDB/Sc2X9qQzlsg3QzQxMZopMaC01bPFM6aYpsUsNDpC3k6p77Y/JyO9EYFeGpE6wc/3FT1Jyk1JXTJpMd6q4V+K8gVDkDJoNwOfAtcH9cqDGwSinN9yl7vZ17LNfaCgVUxGpYk2OQ0lyXyPTw3ALr1ine9occJzIdB+guWLXPCyxsng5XBpnDi6a5B10Ihi1CVDXTMcEStMZI9+yXwThHPxv0LqIysTJug8uSvnsKL9F7W74dd8g56a9+z43L4L6OPmfmIvB0A6lGyRqWVsqfFiaHEgZpkg9WfD8URaSEuKhjJUO7MCD7CtTuH7kugZ+iqbgAN9x3xA8Nhz0YQ4h1M0+d6UV++2oEcqg9brLmq6+ZRRZuO214liN5dfGlU9xpEpFWnjZOeYhuM/n+SksaDF66ICDsQkjR9RdOuVOZ23bJEpYY4S7J9D8JghxRUjtYpiovPrW6KIPzlCO1c9ViYdh+Oqw2DeCH7wmVSHs3l3LOF3ipBlEiX2YRULTICO8GwnDHY7+hIrkZIWoCPcAxHsHV/XE6u6BBD7WT1If5JuWO2ztrNDizO2/ClDnurDWZrIB1P1crVefLRYdSGECP2y64ED9IMIuvRAnvjtKuL/VpAq2ONHiOxC/TVd4JaYpEwWzFBwPz6OCVzHGfmcF1DRSeeLAKuDf1+/YgSMGKfp06zQov3OPTBIs3Yzh5TUeOnc9crQDLXi0e5gkk9TN5CLr+3AKpfIv7jm2IwKn4jGFpqIOzqWMtFgaljTeg5kk6vblugQbtuMHaoWbMWdSuuVaN4HYYkZPrEJTxg0TwT0CsBQjfzYei3Fl4nVaACXAXjk1bMG4ZrQTATV7MckfJEQix8uZCXG+4MSGX5A3A8uWr98fqtaE8z2uxjcj4HmRZRhGJxUGqcoFFnGDgaVjUdcUw7JDjn3soBJ1BsSFwr5WxYPZ0lYKNdojIDRiL9lk0vhArwYJJMi9gEu3oJSgtEQ==",
+        "type": "googleCalendarOAuth2Api",
+        "isManaged": false
+    },
+    {
+        "updatedAt": "2025-06-24T19:15:36.711Z",
+        "createdAt": "2025-06-24T18:59:25.534Z",
+        "id": "Xu9oDYoZpFuE6DxC",
+        "name": "redis",
+        "data": "U2FsdGVkX193tZ+iufoEwKdgUYSXeuu3UueuGH1Kz3aWgar45A09W4UqqMo7M/L5",
+        "type": "redis",
+        "isManaged": false
+    },
+    {
+        "updatedAt": "2025-06-24T19:14:55.126Z",
+        "createdAt": "2025-06-24T19:12:32.064Z",
+        "id": "0tluSn21ix4gcg9u",
+        "name": "jt-calendar",
+        "data": "U2FsdGVkX195WSWsqZ2piKiHTRif6xg4AcOmhlp9+VyuyZbxFOJIb+Bc2Gib+GZ7Z/BOtDkZqmKxdq+b47ArWq9g+ZMfz5uRPrz835NmqW7blafBIZikZIENF8GKuHvc+m72SRDv5s6/3sRSo24sy/vfCFUDoSs9Eo6C+q2pybGLi+Q+pfF8DJBu2KIa72Nt49agZx4R/xmxKlW4JWrU6hZuZxrgwnTiIX3sX0yWNscKuTnXOJqtlSH9n18kgf62y3QAYncWFT3SLQTRoqNZqHofVvpnvcftUSQ77oJvpNRvFRxIZ0W2/Vm1VF/gV/gPom3AzftDGVmnntJwkMtPP0Tx9w+EIm/TdeWQx2WfwBDyw1kSCkYJ6tw/EvY6wNfOqBX1ODhzf6cTub5gbcVV/jqF9BdC2MyEQoshx05VP/NZkmcbHEYwqWiYf1IAJIczW9hgqo0l25uYpFDsnT/RwMUOINhy4Ghq35n9P0DzI9ZoKnkiBgNDHoEYMgQROw0ds6525wctQ6gaOhQsjY4Ezj3XQhn4uEXEN7J6OZKAveGHG/OeyxU3YW0D9etWLrvym6hxk9EcvoTDiUX2ruXh6ek13PlyBu6m+MyCdnKup02JM3u7Vfa2UYuy5qFHiRNCkJDODZa/D861DAggro8j2UpQsWX0+0s2/iNsDipc+NUJXKkpUi914Gabwbxu+o8GOAocMu48ugYbUOURahYjWPr/HYPGPYPy2eQrLDlyYco4/4e8MamZdoLEZHXElygZ1YhPjahxluiVBuUEU0vLR4O+nT/v62sppzTIozy+slEDi/efwdQYel9YJjyxGBZz8YJ5dWVL1lZ8LkdQAJlwRfZRpV1Dquh0JV8qxc+fGRtBudmbNirPIXurMY/QJ5tw7Qq1MFPJfkBvVegZdx8KRjS7ysrKPIe5lBRJNaRivOaBvIDnnOygAFDen9jhRiJX7wCgVs2jgr5uwzRpfH+lP/JUDfc0hokN42R1TqIpTR/Sggfy5zJsZo1f6/CejKQQFfwyIIXqwwIvb4tRReCKvr9GaCRD0mPV1wHPUHNZqzbcvtv+iLq17yrygnOeup7Z+b97dgavQkvwrd6I+hWSrwlQgS4JutC5dFp5sDjKaRs=",
+        "type": "googleCalendarOAuth2Api",
+        "isManaged": false
+    }
+]
