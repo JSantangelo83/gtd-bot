@@ -12,19 +12,19 @@ export type RawCredential = {
   };
 };
 
-export type DecryptedCredential = {
+export type DecryptedCredential<T> = {
   id: string;
   name: string;
   type: string;
   isManaged: boolean;
   createdAt: string;
   updatedAt: string;
-  data: string; // decrypted plaintext
+  data: T
 };
 
 export class Credential {
   private cryptoKey: CryptoKey;
-  private creds: DecryptedCredential[] = [];
+  private creds: DecryptedCredential<unknown>[] = [];
 
   private constructor(key: CryptoKey) {
     this.cryptoKey = key;
@@ -103,13 +103,13 @@ export class Credential {
 
       this.creds.push({
         ...item,
-        data: decrypted,
+        data: JSON.parse(decrypted),
       });
     }
   }
 
   // GET ALL DECRYPTED CREDS
-  getAll(): DecryptedCredential[] {
+  getAll(): DecryptedCredential<unknown>[] {
     return this.creds;
   }
 

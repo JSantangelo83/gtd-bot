@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=gtd
+      - POSTGRES_PASSWORD=AA3BCf72F6dDe69aede4E74b5F5DFE7d
+      - POSTGRES_DB=gtd
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+      - ./postgres/seeds:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+volumes:
+  postgres_volume:

@@ -1,0 +1,51 @@
+# Deno cache & artifacts
+deno.gen/
+deno.lock
+.deno/
+.cache/
+dist/
+build/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage output
+coverage/
+cov_profile.txt
+
+# Output from scripts
+*.tmp
+*.out
+*.bak
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Editor/IDE crap
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node compatibility (if using npm: or node_modules interoperability)
+node_modules/
+
+# Runtime data
+data/
+*.sqlite
+*.db
+
+# Lockfile alternatives
+pnpm-lock.yaml
+yarn.lock
+package-lock.json

@@ -9,3 +9,4 @@ const credManager = await Credential.fromKey(key);
 Logger.info('Importing credentials...')
 const raw = JSON.parse(await Deno.readTextFile(creds_file));
 await credManager.import(raw);
+console.log(credManager.getAll())
