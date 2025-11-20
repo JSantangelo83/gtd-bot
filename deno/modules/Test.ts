@@ -3,11 +3,12 @@ import { Env } from "./Env.ts";
 import { GoogleCalendar } from "./GoogleCalendar.ts";
 import { Logger } from "./Logger.ts";
 import { JSONSchemaOutput, OpenAi } from "./OpenAI.ts";
+import { Postgres } from "./Postgres.ts";
 
 export async function testCredentials(env: Env) {
     const creds_file = env.CREDENTIALS_FILE
     const key = env.ENCRYPTION_KEY
-    const credManager = await Credential.fromKey(key);
+    const credManager = await Credential.create(key);
 
     Logger.info('Importing credentials...')
     const raw = JSON.parse(await Deno.readTextFile(creds_file));
@@ -17,13 +18,13 @@ export async function testCredentials(env: Env) {
 }
 
 export async function testCalendar(credManager: Credential) {
-    const calendarCred = credManager.getByName('js-calendar')
+    const calendarCred: any = credManager.getByName('js-calendar')
     if (!calendarCred) {
         Logger.error('No Calendar creds found')
         Deno.exit()
     }
 
-    const gc = new GoogleCalendar(calendarCred);
+    const gc = await GoogleCalendar.create({ name: 'Calendar Test', cred: calendarCred });
 
     const now = new Date();
     const inOneHour = new Date(now.getTime() + 60 * 60 * 1000);
@@ -31,24 +32,32 @@ export async function testCalendar(credManager: Credential) {
     // Example RRULE → Every Tuesday and Thursday for 10 occurrences
     const rrule = "RRULE:FREQ=WEEKLY;BYDAY=TU,TH;COUNT=10";
 
-    gc.scheduleEvent({
+    console.log(await gc.scheduleEvent({
         title: "Full Test Event",
         description: "This is a complete test event with recurrence, reminders, attendees, etc.",
         rrule,
         start: now.toISOString(),
         end: inOneHour.toISOString(),
-    });
+    }))
+}
+
+export async function testPostgres(credManager: Credential) {
+    const psCreds: any = credManager.getByName('postgres')
+    if (psCreds) {
+        const ps = await Postgres.create({ name: 'Postgres Test', cred: psCreds })
+        console.log(await ps.getVersion())
+    }
 
 }
 
 export async function testOpenAi(credManager: Credential) {
-    const openAICred = credManager.getByName('js-openai')
+    const openAICred: any = credManager.getByName('js-openai')
     if (!openAICred) {
         Logger.error('No OpenAI creds found')
         Deno.exit()
     }
 
-    const oai = new OpenAi(openAICred);
+    const oai = await OpenAi.create({ name: 'Test Open AI', cred: openAICred });
 
     const schema: JSONSchemaOutput = {
         name: "Echo",

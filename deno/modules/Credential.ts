@@ -30,17 +30,10 @@ export class Credential {
     this.cryptoKey = key;
   }
 
-  // Key derivation (PBKDF2 → AES-GCM 256)
-  static async fromKey(secret: string): Promise<Credential> {
+  static async create(secret: string): Promise<Credential> {
     const enc = new TextEncoder().encode(secret);
 
-    const keyMaterial = await crypto.subtle.importKey(
-      "raw",
-      enc,
-      "PBKDF2",
-      false,
-      ["deriveKey"]
-    );
+    const keyMaterial = await crypto.subtle.importKey("raw", enc, "PBKDF2", false, ["deriveKey"]);
 
     const key = await crypto.subtle.deriveKey(
       {
@@ -58,7 +51,6 @@ export class Credential {
     return new Credential(key);
   }
 
-  // INTERNAL: decrypt AES-GCM
   private async decrypt(ivB64: string, cipherB64: string): Promise<string> {
     const iv = Uint8Array.from(atob(ivB64), (c) => c.charCodeAt(0));
     const ciphertext = Uint8Array.from(atob(cipherB64), (c) => c.charCodeAt(0));
@@ -72,26 +64,6 @@ export class Credential {
     return new TextDecoder().decode(decrypted);
   }
 
-  // INTERNAL: encrypt AES-GCM (not required for import, but useful)
-  async encrypt(value: string) {
-    const iv = crypto.getRandomValues(new Uint8Array(12));
-    const encoded = new TextEncoder().encode(value);
-
-    const ciphertext = new Uint8Array(
-      await crypto.subtle.encrypt(
-        { name: "AES-GCM", iv },
-        this.cryptoKey,
-        encoded
-      )
-    );
-
-    return {
-      iv: btoa(String.fromCharCode(...iv)),
-      ciphertext: btoa(String.fromCharCode(...ciphertext)),
-    };
-  }
-
-  // IMPORT: takes the JSON array ready from file
   async import(raw: RawCredential[]) {
     this.creds = [];
 
@@ -108,19 +80,16 @@ export class Credential {
     }
   }
 
-  // GET ALL DECRYPTED CREDS
   getAll(): DecryptedCredential<unknown>[] {
     return this.creds;
   }
 
-  // GET by ID
-  getById(id: string) {
-    return this.creds.find(c => c.id === id);
+  getById<T>(id: string): DecryptedCredential<T> {
+    return this.creds.find(c => c.id === id) as DecryptedCredential<T>;
   }
 
-  // GET by name
-  getByName(name: string) {
-    return this.creds.find(c => c.name === name);
+  getByName<T>(name: string): DecryptedCredential<T> {
+    return this.creds.find(c => c.name === name) as DecryptedCredential<T>;
   }
 
 }

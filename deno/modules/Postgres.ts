@@ -1,6 +1,8 @@
+import { Pool } from "@db/postgres";
 import { PostgresPool } from "../deps.ts";
 import { DecryptedCredential } from "./Credential.ts";
 import env from "./Env.ts";
+import { BaseNode, BaseNodeParams } from "./nodes/BaseNode.ts";
 
 export interface PostgresCredData {
   host: string;
@@ -10,31 +12,46 @@ export interface PostgresCredData {
   port: number;
 }
 
-export class Postgres {
-  private pool: PostgresPool
-  constructor(cred: DecryptedCredential<PostgresCredData>) {
+export interface PostgresParams extends BaseNodeParams<PostgresCredData> {
+
+}
+
+export class Postgres extends BaseNode<PostgresCredData> {
+  private pool!: PostgresPool
+  constructor(private params: PostgresParams) {
+    super()
     this.pool = new PostgresPool(
       {
-        user: cred.data.user,
-        database: cred.data.database,
-        hostname: cred.data.host,
-        port: cred.data.port,
-        password: cred.data.password
+        user: params.cred.data.user,
+        database: params.cred.data.database,
+        hostname: params.cred.data.host,
+        port: params.cred.data.port,
+        password: params.cred.data.password
       },
       env.POOL_CONNECTIONS,
     );
   }
+  
+  static create(params: PostgresParams): Promise<Postgres> {
+    return BaseNode.factory(Postgres, params);
+  }
 
-  public async testQuery(): Promise<TestQueryResult> {
+  override async healthCheck(): Promise<void> {
     {
       using client = await this.pool.connect();
-      console.log(client)
-      const ret = (await client.queryObject<TestQueryResult>`SELECT version()`).rows[0];
-      return ret;
+      await client.queryObject`SELECT 1`
     }
   }
+
+  async getVersion(): Promise<GetVersionResult> {
+    {
+      using client = await this.pool.connect();
+      return (await client.queryObject<GetVersionResult>`SELECT version()`).rows[0]
+    }
+  }
+
 }
 
-export interface TestQueryResult {
+export interface GetVersionResult {
   version: string
 }
