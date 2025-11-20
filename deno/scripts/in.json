@@ -27,21 +27,12 @@
         "isManaged": false
     },
     {
-        "updatedAt": "2025-06-24T19:15:36.711Z",
-        "createdAt": "2025-06-24T18:59:25.534Z",
-        "id": "Xu9oDYoZpFuE6DxC",
-        "name": "redis",
-        "data": "U2FsdGVkX193tZ+iufoEwKdgUYSXeuu3UueuGH1Kz3aWgar45A09W4UqqMo7M/L5",
-        "type": "redis",
-        "isManaged": false
-    },
-    {
-        "updatedAt": "2025-06-24T19:14:55.126Z",
-        "createdAt": "2025-06-24T19:12:32.064Z",
-        "id": "0tluSn21ix4gcg9u",
-        "name": "jt-calendar",
-        "data": "U2FsdGVkX195WSWsqZ2piKiHTRif6xg4AcOmhlp9+VyuyZbxFOJIb+Bc2Gib+GZ7Z/BOtDkZqmKxdq+b47ArWq9g+ZMfz5uRPrz835NmqW7blafBIZikZIENF8GKuHvc+m72SRDv5s6/3sRSo24sy/vfCFUDoSs9Eo6C+q2pybGLi+Q+pfF8DJBu2KIa72Nt49agZx4R/xmxKlW4JWrU6hZuZxrgwnTiIX3sX0yWNscKuTnXOJqtlSH9n18kgf62y3QAYncWFT3SLQTRoqNZqHofVvpnvcftUSQ77oJvpNRvFRxIZ0W2/Vm1VF/gV/gPom3AzftDGVmnntJwkMtPP0Tx9w+EIm/TdeWQx2WfwBDyw1kSCkYJ6tw/EvY6wNfOqBX1ODhzf6cTub5gbcVV/jqF9BdC2MyEQoshx05VP/NZkmcbHEYwqWiYf1IAJIczW9hgqo0l25uYpFDsnT/RwMUOINhy4Ghq35n9P0DzI9ZoKnkiBgNDHoEYMgQROw0ds6525wctQ6gaOhQsjY4Ezj3XQhn4uEXEN7J6OZKAveGHG/OeyxU3YW0D9etWLrvym6hxk9EcvoTDiUX2ruXh6ek13PlyBu6m+MyCdnKup02JM3u7Vfa2UYuy5qFHiRNCkJDODZa/D861DAggro8j2UpQsWX0+0s2/iNsDipc+NUJXKkpUi914Gabwbxu+o8GOAocMu48ugYbUOURahYjWPr/HYPGPYPy2eQrLDlyYco4/4e8MamZdoLEZHXElygZ1YhPjahxluiVBuUEU0vLR4O+nT/v62sppzTIozy+slEDi/efwdQYel9YJjyxGBZz8YJ5dWVL1lZ8LkdQAJlwRfZRpV1Dquh0JV8qxc+fGRtBudmbNirPIXurMY/QJ5tw7Qq1MFPJfkBvVegZdx8KRjS7ysrKPIe5lBRJNaRivOaBvIDnnOygAFDen9jhRiJX7wCgVs2jgr5uwzRpfH+lP/JUDfc0hokN42R1TqIpTR/Sggfy5zJsZo1f6/CejKQQFfwyIIXqwwIvb4tRReCKvr9GaCRD0mPV1wHPUHNZqzbcvtv+iLq17yrygnOeup7Z+b97dgavQkvwrd6I+hWSrwlQgS4JutC5dFp5sDjKaRs=",
-        "type": "googleCalendarOAuth2Api",
+        "updatedAt": "2025-11-11T18:36:57.638Z",
+        "createdAt": "2025-11-11T18:36:37.465Z",
+        "id": "zxgitJjJp3H16ncU",
+        "name": "postgres",
+        "data": "U2FsdGVkX198iFWG0NmEdv07r+T0USxIjJO4c/c1i58j/BehXPVIiGHGiDyv02HOT/I9mltoIo0+gUhroqzLx8G7bzUaEVHmZM4V2FqiadPvn2GndaV5yx4u2CpNzEy/4MIJCUTJE6RBne2tGC7mXg==",
+        "type": "postgres",
         "isManaged": false
     }
 ]

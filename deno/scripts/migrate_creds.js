@@ -92,10 +92,11 @@ async function encryptValue(key, plaintext) {
     const encrypted = cred.data;
 
     console.log(`   🔓 Decrypting ${cred.name}...`);
-    const decrypted = execSync(
+    let decrypted = execSync(
       `echo "${encrypted}" | base64 -d | openssl enc -aes-256-cbc -md md5 -d -salt -pass pass:${oldPass} 2>/dev/null`,
       { encoding: "utf8", shell: "/bin/bash" }
     ).trim();
+    
     console.log(`   🔐 Encrypting ${cred.name}...`);
     const newEnc = await encryptValue(aesKey, decrypted);
 
