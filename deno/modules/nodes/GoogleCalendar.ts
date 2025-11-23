@@ -1,4 +1,4 @@
-import { BaseNode, BaseNodeParams } from "./nodes/BaseNode.ts";
+import { BaseNode, BaseNodeParams } from "./BaseNode.ts";
 
 export interface GoogleCalendarCredData {
     clientId: string,

@@ -1,0 +1,50 @@
+[
+  {
+    "updatedAt": "2025-06-24T19:15:21.944Z",
+    "createdAt": "2025-06-24T18:37:20.913Z",
+    "id": "jvNUxrxv7wRHmdwR",
+    "name": "gtd-bot",
+    "data": {
+      "iv": "FlsnRkEI9gcJRXyr",
+      "ciphertext": "CE33AEQe75FeIkRAa/6ikVM7Zj2KQzwyLw4AQ5GYfyUFn2a333X116qfIOBqPo+liLFtWbUTO/Zm8CvcrjxxL+gDBqTNR7E8QExQslCHzmA="
+    },
+    "type": "telegramApi",
+    "isManaged": false
+  },
+  {
+    "updatedAt": "2025-06-24T19:15:10.481Z",
+    "createdAt": "2025-06-24T18:38:37.095Z",
+    "id": "1PPvjrRUJkFLVir4",
+    "name": "js-openai",
+    "data": {
+      "iv": "W9hdKyDJETvHvmpl",
+      "ciphertext": "fS12ArKnJ3g0si+XZsUkdKm2n7WxvixnNa91wwhhl9RNKapb4e3E0/RsGg3xWMFCFarCdc/5oQQ5QXg4bqA3AkIRfOmkFr5vP4u/g18NrIiCMugyVE6R0A8JDVeSsc9HUO/CqcYhJA8d51RFwSdVKffe5t6QUaeuNXuQMxWCrb1lAiXeMdXzHUw5dLsaKDysmaJzS99rNhKw2Ju938+565cvqhJVjwErB23My2umJRCk62jmwwETYsAmhBGZ6MMvBw=="
+    },
+    "type": "openAiApi",
+    "isManaged": false
+  },
+  {
+    "updatedAt": "2025-11-18T21:06:48.707Z",
+    "createdAt": "2025-06-24T18:40:59.120Z",
+    "id": "fRqBdgxdwqaSsFZL",
+    "name": "js-calendar",
+    "data": {
+      "iv": "hUSBI3RgssTQ0h25",
+      "ciphertext": "h7Emn8tr1papga7lJP6GrGWXFHeg0mXzwJDWVKulEq7cWAFr7N9aCWQrkkYzmNq4kF7BRGjsicfVQcBEya48llSIlEimpLqAILta9JmEDynfTB5/nllh3m5ZFVvgorIK9BOKE1xPfgkb6zYG8EW1jhu49xe7ZeO1ovyG/7bgjhscJLF8qPCyBfT2B4gapfaRZA30IL1oSReaP3ik4yNfeGaE3i4doX/Tq6nsfVsmmGB9yb9jsGWrToi0n25Or25a/4eqyidwgu9D1IslWrfZ+cZoRiDIABb2BKcCRlY9CnZU02QUmMrX4pbVSLj5iN66kCl1eQWot8GSAZa/byfIgMwJRs/CRcbRWSLAyeIFmca8yLinTm3gQ+XLymXR77HAW4PeA1IOJ5NRkMFB99PoOJiGf1XT8Vne6a7NENgTAO/ePcnxcacBo2EiMlVEOJUsw9B8jlOQ9m9vsxCOgIBtJeDi/4YqABUSEQH5T7KbwMAZJ38HBxJ4Cn0zlojeTdIson7ztMaKNyktjcNR4jHZcp8QMvOuAHEU84HRyeuoSf6kcnj75f4M8rUK1WeYCO05dIAOFYhSuiD/OHQPe4bITJumK9WPhlBMt5Cjg3bUfA4znaPackQHLyd//L7sHs0HqtHBmnCn6UmeJGzmb55VQCQokwEWzUDzK7mr4EzDfTDTZRRvzBBU59J4e/PH9Asz6eTA2A/0f5XYnMofGFsx0QkoUu4BeFQEGTCUyJBR3gvAUK1AzIvwzujcFLi1c1JzKPS3WWxeAxLlNvDHvn3M2509eHkAjm3y9wg40llybv3arybnBHAj3TsUjQwa+Cj5wvxpHiQGJj/iayLaUAnGUm8oNLbw/Tw2vBsLVahquzZxNYqwH/zpTIOlBxYb2BWB4RymodVtCw529m+FjK94VoBN6cmJBOY0XdKjiQpx9Qrv4jt+jt7WjnyEQ3s8lv7d8olOfsMkuBZrnc+tUPZ/JQ52fWbNQ1bH5u/1wY0xe0p08cXG5CYr0M6jdruzRdG4IB7vI8U7gSFi8r0SHHXlL//munJZGqyNc0fh4aZ0Or2jN+/EmjyRkaCY4pBTcKhCDaoaZLYHYTzlSZyuLwZjlO+P4fosxAwMiKLhWjniWNLW6wD2Z0xZK1vgPIucATMb"
+    },
+    "type": "googleCalendarOAuth2Api",
+    "isManaged": false
+  },
+  {
+    "updatedAt": "2025-11-11T18:36:57.638Z",
+    "createdAt": "2025-11-11T18:36:37.465Z",
+    "id": "zxgitJjJp3H16ncU",
+    "name": "postgres",
+    "data": {
+      "iv": "ov3f1imnj8gg6brK",
+      "ciphertext": "SQSvYF8nNpWu2VF8NtAGAUjU6wPWyjHdlHIM/Y5q8ROCozQ1aPyYkTWmmN74+LMkbmvTU12VfNycEaSEv9t9h5CqXFXx0VxbTbYWph2HPLnDPe38/p28SrPbQHdkcGSjh2Agp8lh+yxUYws/7dt3"
+    },
+    "type": "postgres",
+    "isManaged": false
+  }
+]

@@ -1,8 +1,6 @@
-import { Pool } from "@db/postgres";
-import { PostgresPool } from "../deps.ts";
-import { DecryptedCredential } from "./Credential.ts";
-import env from "./Env.ts";
-import { BaseNode, BaseNodeParams } from "./nodes/BaseNode.ts";
+import { PostgresPool } from "../../deps.ts";
+import env from "../Env.ts";
+import { BaseNode, BaseNodeParams } from "./BaseNode.ts";
 
 export interface PostgresCredData {
   host: string;

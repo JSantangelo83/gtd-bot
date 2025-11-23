@@ -96,7 +96,7 @@ async function encryptValue(key, plaintext) {
       `echo "${encrypted}" | base64 -d | openssl enc -aes-256-cbc -md md5 -d -salt -pass pass:${oldPass} 2>/dev/null`,
       { encoding: "utf8", shell: "/bin/bash" }
     ).trim();
-    
+    console.log(decrypted)
     console.log(`   🔐 Encrypting ${cred.name}...`);
     const newEnc = await encryptValue(aesKey, decrypted);
 

@@ -1,6 +1,7 @@
 import { Credential } from "./modules/Credential.ts";
 import env from "./modules/Env.ts";
 import { Logger } from "./modules/Logger.ts";
+import { testTelegram } from "./modules/Test.ts";
 // import { testCalendar, testOpenAi, testPostgres } from "./modules/Test.ts";
 
 const creds_file = env.CREDENTIALS_FILE
@@ -14,3 +15,4 @@ await credManager.import(raw);
 // await testOpenAi(credManager)
 // await testPostgres(credManager)
 // await testCalendar(credManager)
+await testTelegram(credManager)

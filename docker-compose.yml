@@ -1,24 +1,31 @@
 name: gtd-bot
 services:
+  deno-dev:
+    container_name: deno-dev
+    build:
+      context: ./deno
+      dockerfile: Dockerfile.dev
+    working_dir: /app
+    profiles: ["dev"]
+    environment:
+      - WEBHOOK_URL_PROVIDER=http://cloudflared/url
+    volumes:
+      - ./deno:/app
+    depends_on:
+      - cloudflared
+
+  cloudflared:
+    container_name: cloudflared
+    build: ./cloudflared
+    profiles: ["dev"]
+    
   deno:
     container_name: deno
     build: ./deno
     restart: unless-stopped
     profiles: ["prod"]
-
-  deno-dev:
-    container_name: deno-dev
-    image: denoland/deno:2.5.4
-    working_dir: /app
-    profiles: ["dev"]
-    command: >
-      deno run
-      --allow-all
-      --watch
-      main.ts
-    volumes:
-      - ./deno:/app  
-
+    environment:
+      - WEBHOOK_URL=https://gtd.witjt.org
   postgres:
     container_name: postgres
     image: postgres:16-alpine
