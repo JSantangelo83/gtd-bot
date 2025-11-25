@@ -29,7 +29,7 @@ export class Postgres extends BaseNode<PostgresCredData> {
       env.POOL_CONNECTIONS,
     );
   }
-  
+
   static create(params: PostgresParams): Promise<Postgres> {
     return BaseNode.factory(Postgres, params);
   }
@@ -48,8 +48,21 @@ export class Postgres extends BaseNode<PostgresCredData> {
     }
   }
 
+  async getTelegramChatsIds(): Promise<GetTelegramChatsIdsResult> {
+    {
+      using client = await this.pool.connect();
+      return {
+        chats_ids: (await client.queryArray<string[]>`SELECT telegram_chat_id chat_ids FROM chats`).rows.flat()
+      }
+    }
+  }
+
 }
 
 export interface GetVersionResult {
   version: string
+}
+
+export interface GetTelegramChatsIdsResult {
+  chats_ids: string[];
 }

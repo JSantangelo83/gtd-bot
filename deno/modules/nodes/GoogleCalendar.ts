@@ -62,7 +62,6 @@ export class GoogleCalendar extends BaseNode<GoogleCalendarCredData> {
             refresh_token: this.params.cred.data.oauthTokenData.refresh_token,
             grant_type: "refresh_token",
         });
-        console.log("REFRESH TOKEN:", this.params.cred.data.oauthTokenData.refresh_token);
 
         const res = await fetch("https://oauth2.googleapis.com/token", {
             method: "POST",

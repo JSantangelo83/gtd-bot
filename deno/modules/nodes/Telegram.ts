@@ -70,9 +70,25 @@ export class Telegram extends BaseNode<TelegramCredData> {
             (cb: WebhookCallback) => cb.name !== name
         );
     }
+
+    async sendMessage(chatId: number | string, text: string): Promise<void> {
+        const res = await fetch(`${this.apiBase}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text,
+            }),
+        });
+    
+        if (!res.ok) {
+            throw new Error(`Telegram sendMessage failed (${res.status}): ${await res.text()}`);
+        }
+    }
+    
 }
 
 export interface WebhookCallback {
     name: string;
-    callback: (req: TelegramUpdate) => void;
+    callback: (update: TelegramUpdate) => void;
 }
