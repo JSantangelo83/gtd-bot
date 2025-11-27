@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS chats CASCADE;
 
 CREATE TABLE chats (
     id BIGSERIAL PRIMARY KEY,
-    telegram_chat_id BIGINT UNIQUE,
+    telegram_chat_id INTEGER UNIQUE,
     name TEXT NOT NULL
 );
 

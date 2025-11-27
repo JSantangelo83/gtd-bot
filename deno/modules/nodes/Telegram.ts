@@ -85,10 +85,13 @@ export class Telegram extends BaseNode<TelegramCredData> {
             throw new Error(`Telegram sendMessage failed (${res.status}): ${await res.text()}`);
         }
     }
-    
+
 }
 
 export interface WebhookCallback {
     name: string;
     callback: (update: TelegramUpdate) => void;
 }
+
+//TODO: improve this msgs
+export const MsgUnauthorized = "Unauthorized";

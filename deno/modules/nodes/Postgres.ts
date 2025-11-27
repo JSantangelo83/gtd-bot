@@ -41,28 +41,31 @@ export class Postgres extends BaseNode<PostgresCredData> {
     }
   }
 
-  async getVersion(): Promise<GetVersionResult> {
+  async getVersion(): Promise<string> {
     {
       using client = await this.pool.connect();
-      return (await client.queryObject<GetVersionResult>`SELECT version()`).rows[0]
+      return (await client.queryArray<string[]>`SELECT version()`).rows[0][0]
     }
   }
 
-  async getTelegramChatsIds(): Promise<GetTelegramChatsIdsResult> {
+  async getTelegramChatsIds(): Promise<number[]> {
     {
       using client = await this.pool.connect();
-      return {
-        chats_ids: (await client.queryArray<string[]>`SELECT telegram_chat_id chat_ids FROM chats`).rows.flat()
-      }
+      return (await client.queryArray<number[]>`SELECT telegram_chat_id FROM chats`).rows.flat()
     }
   }
 
+  async getTasks(telegramChatId: number): Promise<Task[]> {
+    {
+      using client = await this.pool.connect();
+      return (await client.queryObject<Task>`SELECT id,title,description FROM tasks WHERE telegram_chat_id = ${telegramChatId}`).rows
+    }
+  }
 }
 
-export interface GetVersionResult {
-  version: string
-}
-
-export interface GetTelegramChatsIdsResult {
-  chats_ids: string[];
+export type Task = {
+  id: string,
+  title: string,
+  description: string,
+  list_id?: string
 }
