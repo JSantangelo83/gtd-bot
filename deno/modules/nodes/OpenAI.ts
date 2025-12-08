@@ -1,6 +1,6 @@
 import { Helper } from "../Helper.ts";
 import { BaseNode, BaseNodeParams } from "./BaseNode.ts";
-import { Task } from "./Postgres.ts";
+import { SavedTask } from "./Postgres.ts";
 
 export interface OpenAiCredData {
     apiKey: string;
@@ -72,7 +72,7 @@ export class OpenAi extends BaseNode<OpenAiCredData> {
 
     }
 
-    public extractTaskData(msg: string) {
+    public extractTaskData(msg: string): Promise<ExtractTaskDataResult> {
         return this.message<ExtractTaskDataResult>(`
             Extract structured information from the user's input according to the given JSON schema.
             Follow these rules:
@@ -126,16 +126,31 @@ export class OpenAi extends BaseNode<OpenAiCredData> {
         })
     }
 
-    public getDuplicatedTask(newTask: ExtractTaskDataResult, taskList: Task[]) {
-        console.log(`
-            You are a duplicate checker. Given a new task and a list of existing tasks determine if any existing task refers to the same thing.
-
+    public getDuplicatedTask(newTask: ExtractTaskDataResult, taskList: SavedTask[]): Promise<GetDuplicatedTaskResult> {
+        return this.message<GetDuplicatedTaskResult>(`
+            You are a duplicate checker. Given a new task and a list of existing tasks determine if any existing task refers to the same thing. (based only on title and description)
             Task list: ${taskList}
-
             New Task: ${newTask}
 
             Return only JSON that conforms exactly to the schema.
-        `)
+        `, {
+            type: "json_schema",
+            json_schema: {
+                name: 'Task',
+                description: "The duplicated schema",
+                strict: true,
+                schema: {
+                    type: "object",
+                    properties: {
+                        id: { type: ["number", "null"] },
+                        title: { type: ["string", "null"] },
+                        description: { type: ["string", "null"] },
+                    },
+                    required: ["id", "title", "description"],
+                    additionalProperties: false
+                }
+            }
+        });
     }
 }
 export interface ExtractTaskDataResult {
@@ -147,10 +162,11 @@ export interface ExtractTaskDataResult {
     duration?: number;
 }
 
-
-
-// ---- OpenAI wrapper types ----
-
+export interface GetDuplicatedTaskResult {
+    id?: number;
+    title?: string;
+    description?: string;
+}
 export interface OpenAIResponseFormat {
     type: "json_schema";
     json_schema: {

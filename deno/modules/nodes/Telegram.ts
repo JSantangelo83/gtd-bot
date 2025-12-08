@@ -1,6 +1,7 @@
 import { TelegramUpdate } from "../../deps.ts";
 import env from "../Env.ts";
 import { Logger } from "../Logger.ts";
+import { router, server } from "../Server.ts";
 import { BaseNode, BaseNodeParams } from "./BaseNode.ts";
 
 export interface TelegramCredData {
@@ -30,24 +31,20 @@ export class Telegram extends BaseNode<TelegramCredData> {
     }
 
     private async registerWebhook(): Promise<void> {
-        Deno.serve({
-            port: 80,
-            hostname: '0.0.0.0',
-            onListen: () => Logger.info('Listening for Telegram updates...')
-        }, async (req) => {
-            const update = (await req.json()) as TelegramUpdate;
+        router.post(`/${this.params.name}-webhook`, async (ctx) => {
+            const update = (await ctx.request.body().value) as TelegramUpdate;
             this.emit(update);
-            return new Response("ok");
+            ctx.response.body = 'OK';
         });
+
         Logger.info(`Registering '${env.WEBHOOK_URL}' as Telegram webhook`)
         const res = await fetch(`${this.apiBase}/setWebhook`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ url: env.WEBHOOK_URL }),
+            body: JSON.stringify({ url: `${env.WEBHOOK_URL}/${this.params.name}-webhook` }),
         });
-
         if (!res.ok) throw new Error(`Could not register webhook (${res.status}): ${await res.text()}`);
         Logger.info('Registered Telegram Webhook')
     }

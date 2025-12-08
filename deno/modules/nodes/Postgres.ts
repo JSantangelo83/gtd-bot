@@ -16,7 +16,7 @@ export interface PostgresParams extends BaseNodeParams<PostgresCredData> {
 
 export class Postgres extends BaseNode<PostgresCredData> {
   private pool!: PostgresPool
-  constructor(private params: PostgresParams) {
+  constructor(params: PostgresParams) {
     super()
     this.pool = new PostgresPool(
       {
@@ -55,15 +55,38 @@ export class Postgres extends BaseNode<PostgresCredData> {
     }
   }
 
-  async getTasks(telegramChatId: number): Promise<Task[]> {
+  async getTasks(telegramChatId: number): Promise<SavedTask[]> {
     {
       using client = await this.pool.connect();
-      return (await client.queryObject<Task>`SELECT id,title,description FROM tasks WHERE telegram_chat_id = ${telegramChatId}`).rows
+      return (await client.queryObject<SavedTask>`SELECT id,title,description FROM tasks WHERE telegram_chat_id = ${telegramChatId}`).rows
+    }
+  }
+
+  async deleteTask(taskId: string): Promise<void> {
+    {
+      using client = await this.pool.connect();
+      await client.queryObject`DELETE FROM tasks WHERE id = ${taskId}`
+    }
+  }
+
+  async createTask(task: NewTask): Promise<string> {
+    {
+      using client = await this.pool.connect();
+      const chatId = await client.queryObject<{ id: string }>`SELECT id FROM chats WHERE telegram_chat_id = ${task.telegramChatId}`
+      const result = await client.queryObject<{ id: string }>`INSERT INTO tasks (telegram_chat_id, title, description, list_id) VALUES (${chatId}, ${task.title}, ${task.description}, ${task.listId}) RETURNING id`
+      return result.rows[0].id
     }
   }
 }
 
-export type Task = {
+export type NewTask = {
+  telegramChatId: number,
+  title: string,
+  description: string,
+  listId?: string
+}
+
+export type SavedTask = {
   id: string,
   title: string,
   description: string,

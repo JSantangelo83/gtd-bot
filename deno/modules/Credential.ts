@@ -1,27 +1,3 @@
-// modules/Credential.ts
-export type RawCredential = {
-  id: string;
-  name: string;
-  type: string;
-  isManaged: boolean;
-  createdAt: string;
-  updatedAt: string;
-  data: {
-    iv: string;          // base64
-    ciphertext: string;  // base64
-  };
-};
-
-export type DecryptedCredential<T> = {
-  id: string;
-  name: string;
-  type: string;
-  isManaged: boolean;
-  createdAt: string;
-  updatedAt: string;
-  data: T
-};
-
 export class Credential {
   private cryptoKey: CryptoKey;
   private creds: DecryptedCredential<unknown>[] = [];
@@ -33,7 +9,13 @@ export class Credential {
   static async create(secret: string): Promise<Credential> {
     const enc = new TextEncoder().encode(secret);
 
-    const keyMaterial = await crypto.subtle.importKey("raw", enc, "PBKDF2", false, ["deriveKey"]);
+    const keyMaterial = await crypto.subtle.importKey(
+      "raw",
+      enc,
+      "PBKDF2",
+      false,
+      ["deriveKey"]
+    );
 
     const key = await crypto.subtle.deriveKey(
       {
@@ -51,9 +33,12 @@ export class Credential {
     return new Credential(key);
   }
 
-  private async decrypt(ivB64: string, cipherB64: string): Promise<string> {
-    const iv = Uint8Array.from(atob(ivB64), (c) => c.charCodeAt(0));
-    const ciphertext = Uint8Array.from(atob(cipherB64), (c) => c.charCodeAt(0));
+
+  private async decrypt(blobB64: string): Promise<string> {
+    const raw = Uint8Array.from(atob(blobB64), (c) => c.charCodeAt(0));
+
+    const iv = raw.slice(0, 12);
+    const ciphertext = raw.slice(12);
 
     const decrypted = await crypto.subtle.decrypt(
       { name: "AES-GCM", iv },
@@ -64,18 +49,16 @@ export class Credential {
     return new TextDecoder().decode(decrypted);
   }
 
+
   async import(raw: RawCredential[]) {
     this.creds = [];
 
     for (const item of raw) {
-      const decrypted = await this.decrypt(
-        item.data.iv,
-        item.data.ciphertext
-      );
+      const decryptedText = await this.decrypt(item.data);
 
       this.creds.push({
         ...item,
-        data: JSON.parse(decrypted),
+        data: JSON.parse(decryptedText),
       });
     }
   }
@@ -84,12 +67,25 @@ export class Credential {
     return this.creds;
   }
 
-  getById<T>(id: string): DecryptedCredential<T> {
-    return this.creds.find(c => c.id === id) as DecryptedCredential<T>;
+  getById<T>(id: string): DecryptedCredential<T> | undefined {
+    return this.creds.find((c) => c.id === id) as DecryptedCredential<T>;
   }
 
-  getByName<T>(name: string): DecryptedCredential<T> {
-    return this.creds.find(c => c.name === name) as DecryptedCredential<T>;
+  getByName<T>(name: string): DecryptedCredential<T> | undefined {
+    return this.creds.find((c) => c.name === name) as DecryptedCredential<T>;
   }
-
 }
+
+export type RawCredential = {
+  id: string;
+  name: string;
+  createdAt: string;
+  data: string; // base64( iv + ciphertext )
+};
+
+export type DecryptedCredential<T> = {
+  id: string;
+  name: string;
+  createdAt: string;
+  data: T;
+};
