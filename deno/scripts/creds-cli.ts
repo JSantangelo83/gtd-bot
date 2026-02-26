@@ -1,8 +1,5 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write
 
-// ============================================================================
-// PRETTY PRINT HELPERS (NO DEPENDENCIES)
-// ============================================================================
 const RESET = "\x1b[0m";
 const c = {
   bold: (t: string) => `\x1b[1m${t}${RESET}`,
@@ -20,23 +17,14 @@ function banner() {
   console.error(c.dim("──────────────────────────────────────────"));
 }
 
-// ============================================================================
-// TEXT ENCODERS
-// ============================================================================
 const enc = new TextEncoder();
 const dec = new TextDecoder();
 
-// ============================================================================
-// PATH RESOLUTION
-// ============================================================================
 const SCRIPT_DIR = new URL(".", import.meta.url);
 const PROJECT_ROOT = new URL("..", SCRIPT_DIR);
 const ENV_PATH = new URL(".env", PROJECT_ROOT);
 const DEFAULT_CREDS_PATH = new URL("resources/credentials.json", PROJECT_ROOT);
 
-// ============================================================================
-// SIMPLE .env PARSER
-// ============================================================================
 function loadEnv(path: URL): Record<string, string> {
   try {
     const txt = Deno.readTextFileSync(path);
@@ -59,9 +47,6 @@ if (!PASS) {
   Deno.exit(1);
 }
 
-// ============================================================================
-// CRYPTO HELPERS
-// ============================================================================
 async function deriveKey(password: string): Promise<CryptoKey> {
   const keyMaterial = await crypto.subtle.importKey(
     "raw",
@@ -109,9 +94,6 @@ async function decryptValue(key: CryptoKey, blob64: string): Promise<string> {
   return dec.decode(decrypted);
 }
 
-// ============================================================================
-// FILE HELPERS
-// ============================================================================
 function loadCreds(path: URL): any[] {
   try {
     return JSON.parse(Deno.readTextFileSync(path));
@@ -124,9 +106,6 @@ function saveCreds(path: URL, creds: any[]) {
   Deno.writeTextFileSync(path, JSON.stringify(creds, null, 2));
 }
 
-// ============================================================================
-// COMMANDS
-// ============================================================================
 async function cmdNew(key: CryptoKey, name: string, file: URL) {
   console.error(c.blue(`📝 Enter credential value (Ctrl+D to finish):`));
   const input = await Deno.readAll(Deno.stdin);
@@ -160,8 +139,8 @@ async function cmdShow(key: CryptoKey, name: string, file: URL) {
     Deno.exit(1);
   }
 
-  // IMPORTANT:
-  // 🔥 Print ONLY the decrypted value to stdout — for piping to jq
+
+
   const decrypted = await decryptValue(key, cred.data);
   console.log(decrypted);
 }
@@ -179,9 +158,6 @@ function cmdDelete(name: string, file: URL) {
   console.error(c.yellow(`🗑️ Deleted credential "${name}"`));
 }
 
-// ============================================================================
-// HELP
-// ============================================================================
 function showHelp() {
   banner();
   console.error("Usage:");
@@ -192,13 +168,10 @@ function showHelp() {
   console.error(c.dim(`Default file: resources/credentials.json`));
 }
 
-// ============================================================================
-// ENTRYPOINT
-// ============================================================================
 banner();
 
 const [cmd, name, fileArg] = Deno.args;
-const file = fileArg ? new URL(fileArg, "file://") : DEFAULT_CREDS_PATH;
+const file = fileArg ? new URL(fileArg, "file:///") : DEFAULT_CREDS_PATH;
 const key = await deriveKey(PASS);
 
 switch (cmd) {

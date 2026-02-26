@@ -1,7 +1,7 @@
 import { TelegramUpdate } from "../../deps.ts";
 import env from "../Env.ts";
 import { Logger } from "../Logger.ts";
-import { router, server } from "../Server.ts";
+import { router } from "../Server.ts";
 import { BaseNode, BaseNodeParams } from "./BaseNode.ts";
 
 export interface TelegramCredData {

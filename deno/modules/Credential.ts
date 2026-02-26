@@ -1,12 +1,16 @@
+import { Logger } from "./Logger.ts";
+
 export class Credential {
   private cryptoKey: CryptoKey;
   private creds: DecryptedCredential<unknown>[] = [];
+  private credsFile: string;
 
-  private constructor(key: CryptoKey) {
+  private constructor(key: CryptoKey, credsFile: string) {
     this.cryptoKey = key;
+    this.credsFile = credsFile;
   }
 
-  static async create(secret: string): Promise<Credential> {
+  static async create(secret: string, credsFile: string): Promise<Credential> {
     const enc = new TextEncoder().encode(secret);
 
     const keyMaterial = await crypto.subtle.importKey(
@@ -30,11 +34,35 @@ export class Credential {
       ["encrypt", "decrypt"]
     );
 
-    return new Credential(key);
+    const credManager = new Credential(key, credsFile);
+    Logger.info('Importing credentials...')
+
+    const raw = JSON.parse(await Deno.readTextFile(credsFile));
+    await credManager.import(raw);
+
+    return credManager;
+  }
+
+  private async import(creds: EncryptedCredential[]) {
+    this.creds = await Promise.all(
+      creds.map(async cred => ({
+        ...cred,
+        data: await this.decrypt<unknown>(cred.data),
+      }))
+    );
   }
 
 
-  private async decrypt(blobB64: string): Promise<string> {
+  private export(): Promise<EncryptedCredential[]> {
+    return Promise.all(
+      this.creds.map(async cred => ({
+        ...cred,
+        data: await this.encrypt(cred.data),
+      }))
+    );
+  }
+
+  private async decrypt<T>(blobB64: string): Promise<T> {
     const raw = Uint8Array.from(atob(blobB64), (c) => c.charCodeAt(0));
 
     const iv = raw.slice(0, 12);
@@ -46,21 +74,24 @@ export class Credential {
       ciphertext
     );
 
-    return new TextDecoder().decode(decrypted);
+    return JSON.parse(new TextDecoder().decode(decrypted));
   }
 
+  private async encrypt<T>(data: T): Promise<string> {
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const encoded = new TextEncoder().encode(JSON.stringify(data));
 
-  async import(raw: RawCredential[]) {
-    this.creds = [];
+    const ciphertext = await crypto.subtle.encrypt(
+      { name: "AES-GCM", iv },
+      this.cryptoKey,
+      encoded
+    );
 
-    for (const item of raw) {
-      const decryptedText = await this.decrypt(item.data);
+    const combined = new Uint8Array(iv.length + ciphertext.byteLength);
+    combined.set(iv, 0);
+    combined.set(new Uint8Array(ciphertext), iv.length);
 
-      this.creds.push({
-        ...item,
-        data: JSON.parse(decryptedText),
-      });
-    }
+    return btoa(String.fromCharCode(...combined));
   }
 
   getAll(): DecryptedCredential<unknown>[] {
@@ -74,18 +105,31 @@ export class Credential {
   getByName<T>(name: string): DecryptedCredential<T> | undefined {
     return this.creds.find((c) => c.name === name) as DecryptedCredential<T>;
   }
+
+  set<T>(cred: DecryptedCredential<T>) {
+    const idx = this.creds.findIndex((c) => c.id === cred.id);
+    if (idx >= 0) this.creds[idx] = cred;
+    else this.creds.push(cred);
+  }
+
+  saveToFile(creds_file: string = this.credsFile): Promise<void> {
+    return this.export().then((exported) =>
+      Deno.writeTextFile(creds_file, JSON.stringify(exported, null, 2))
+    );
+  }
+
 }
 
-export type RawCredential = {
+export type CredentialBase = {
   id: string;
   name: string;
   createdAt: string;
-  data: string; // base64( iv + ciphertext )
 };
 
-export type DecryptedCredential<T> = {
-  id: string;
-  name: string;
-  createdAt: string;
+export type EncryptedCredential = CredentialBase & {
+  data: string; // base64(iv + ciphertext)
+};
+
+export type DecryptedCredential<T> = CredentialBase & {
   data: T;
 };

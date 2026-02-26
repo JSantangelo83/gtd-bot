@@ -48,17 +48,17 @@ export class Postgres extends BaseNode<PostgresCredData> {
     }
   }
 
-  async getTelegramChatsIds(): Promise<number[]> {
+  async getTelegramChatsIds(): Promise<string[]> {
     {
       using client = await this.pool.connect();
-      return (await client.queryArray<number[]>`SELECT telegram_chat_id FROM chats`).rows.flat()
+      return (await client.queryArray<string[]>`SELECT telegram_chat_id FROM chats`).rows.flat()
     }
   }
 
-  async getTasks(telegramChatId: number): Promise<SavedTask[]> {
+  async getTasks(telegramChatId: string): Promise<SavedTask[]> {
     {
       using client = await this.pool.connect();
-      return (await client.queryObject<SavedTask>`SELECT id,title,description FROM tasks WHERE telegram_chat_id = ${telegramChatId}`).rows
+      return (await client.queryObject<SavedTask>`SELECT t.id, t.title, t.description FROM tasks t LEFT JOIN chats c on c.id = t.chat_id WHERE c.telegram_chat_id = ${telegramChatId}`).rows
     }
   }
 
@@ -69,18 +69,17 @@ export class Postgres extends BaseNode<PostgresCredData> {
     }
   }
 
-  async createTask(task: NewTask): Promise<string> {
+  async createTask(task: NewTask): Promise<void> {
     {
       using client = await this.pool.connect();
       const chatId = await client.queryObject<{ id: string }>`SELECT id FROM chats WHERE telegram_chat_id = ${task.telegramChatId}`
-      const result = await client.queryObject<{ id: string }>`INSERT INTO tasks (telegram_chat_id, title, description, list_id) VALUES (${chatId}, ${task.title}, ${task.description}, ${task.listId}) RETURNING id`
-      return result.rows[0].id
+      await client.queryObject<{ id: string }>`INSERT INTO tasks (chat_id, title, description, list_id) VALUES (${chatId}, ${task.title}, ${task.description}, ${task.listId})`
     }
   }
 }
 
 export type NewTask = {
-  telegramChatId: number,
+  telegramChatId: string,
   title: string,
   description: string,
   listId?: string

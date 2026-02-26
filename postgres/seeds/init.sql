@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS chats CASCADE;
 
 CREATE TABLE chats (
     id BIGSERIAL PRIMARY KEY,
-    telegram_chat_id INTEGER UNIQUE,
+    telegram_chat_id TEXT UNIQUE,
     name TEXT NOT NULL
 );
 
@@ -28,4 +28,4 @@ CREATE TABLE tasks (
         ON DELETE SET NULL
 );
 
-INSERT INTO chats (telegram_chat_id, name) VALUES (7258342357, 'Joakin');
+INSERT INTO chats (telegram_chat_id, name) VALUES ('7258342357', 'Joakin');

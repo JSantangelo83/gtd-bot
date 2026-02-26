@@ -1,3 +1,4 @@
+import { Credential } from "../Credential.ts";
 import { BaseNode, BaseNodeParams } from "./BaseNode.ts";
 
 export interface GoogleCalendarCredData {
@@ -16,7 +17,7 @@ export interface GoogleCalendarCredData {
     }
 }
 export interface GoogleCalendarParams extends BaseNodeParams<GoogleCalendarCredData> {
-
+    credManager: Credential
 }
 
 export class GoogleCalendar extends BaseNode<GoogleCalendarCredData> {
@@ -74,8 +75,20 @@ export class GoogleCalendar extends BaseNode<GoogleCalendarCredData> {
         }
 
         const json = await res.json();
+
+        // Update access token
         this.params.cred.data.oauthTokenData.access_token = json.access_token;
+
+        // Some refreshes return a *new* refresh token (rotation)
+        if (json.refresh_token) {
+            this.params.cred.data.oauthTokenData.refresh_token = json.refresh_token;
+        }
+
+        // Persist inside the Credential manager
+        this.params.credManager.set(this.params.cred);
+        await this.params.credManager.saveToFile();
     }
+
 
     public async scheduleEvent(event: Event): Promise<ScheduleEventResult> {
         const body = {
